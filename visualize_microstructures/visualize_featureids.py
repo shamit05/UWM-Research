@@ -28,7 +28,7 @@ def network_plot_3D(G, angle, save=False):
 
     # Get node positions
     pos = nx.get_node_attributes(G, 'pos')
-
+    size = nx.get_node_attributes(G, 'size')
     # Get number of nodes
     n = G.nodes()
 
@@ -38,9 +38,13 @@ def network_plot_3D(G, angle, save=False):
     # Define color range proportional to number of edges adjacent to a single node
     colors = {i: plt.cm.plasma(G.degree(i)/edge_max) for i in n}
 
-    data = []
+    axis = dict(showbackground=False, showline=False, zeroline=False, showgrid=False, showticklabels=False, title='')
 
-    fig = go.Figure()
+    layout = go.Layout(
+        title="Network of grains in microstructure (3D visualization)",
+    )
+
+    fig = go.Figure(layout=layout)
 
     # Loop on the pos dictionary to extract the x,y,z coordinates of each node
     for key, value in pos.items():
@@ -56,11 +60,12 @@ def network_plot_3D(G, angle, save=False):
             mode ='markers',
             marker = dict(
                 symbol='circle',
-                size=G.degree(key),
+                size=size[key]/100,
                 color=colors[key],
                 opacity=0.7
             ),
-            name='featureID ' + key
+            name='featureID ' + key,
+            legendgroup="Grains"
         ))
 
     # Loop on the list of edges to get the x,y,z, coordinates of the connected nodes
@@ -79,31 +84,19 @@ def network_plot_3D(G, angle, save=False):
             line=dict(color='black', width=j[2]/maxWeight*10),
             hoverinfo='none',
             opacity=0.2,
-            name='trace'
+            name='edge from ' + str(j[0]) + ' to ' + str(j[1]),
+            legendgroup="Edges"
         ))
-
-    axis = dict(showbackground=False, showline=False, zeroline=False, showgrid=False, showticklabels=False, title='')
-
-    layout = go.Layout(
-             title="Network of coappearances of characters in Victor Hugo's novel<br> Les Miserables (3D visualization)",
-             width=1000,
-             height=1000,
-             showlegend=False,
-             scene=dict(
-                 xaxis=dict(axis),
-                 yaxis=dict(axis),
-                 zaxis=dict(axis),
-            ))
 
     plot(fig)
 
 def gen_graph(input_file):
 
     # Data:
-    headers = {}
+    headers = {
+        0: "Feature_ID"
+    }
     adjacency_list = {}
-    weight_list = {}
-    position_list = {}
 
     # opening the CSV file
     with open(input_file, mode ='r') as file:
@@ -118,36 +111,37 @@ def gen_graph(input_file):
                 i+=1
                 headers[i] = line
             else:
-                try:
-                    f = headers[i].index("Feature_ID")
-                    if i == 1:
-                        c0 = headers[i].index("Centroids_0")
-                        c1 = headers[i].index("Centroids_1")
-                        c2 = headers[i].index("Centroids_2")
-                        featureID = line[f]
-                        pos = (float_or_int(line[c0]), float_or_int(line[c1]), float_or_int(line[c2]))
-                        position_list[featureID] = pos
-                    if i == 2:
-                        featureID = line[f]
-                        neighborList = line[2:]
-                        adjacency_list[featureID] = neighborList
-                    if i == 3:
-                        weightsList = [float_or_int(w) for w in line[2:]]
+                f = headers[i].index("Feature_ID")
+                featureID = line[f]
+                if featureID not in adjacency_list:
+                    adjacency_list[featureID] = {}
+                if i == 1:
+                    c0 = headers[i].index("Centroids_0")
+                    c1 = headers[i].index("Centroids_1")
+                    c2 = headers[i].index("Centroids_2")
+                    featureID = line[f]
+                    pos = (float_or_int(line[c0]), float_or_int(line[c1]), float_or_int(line[c2]))
+                    adjacency_list[featureID]["positionList"] = pos
+                    adjacency_list[featureID]["size"] = float_or_int(line[headers[i].index("Volumes")])
+                if i == 2:
+                    neighborList = line[2:]
+                    adjacency_list[featureID]["neighborList"] = neighborList
+                if i == 3:
+                    weightsList = [float_or_int(w) for w in line[2:]]
+                    global maxWeight
+                    maxWeight = max(max(weightsList), maxWeight)
+                    adjacency_list[featureID]["weightsList"] = weightsList
 
-                        global maxWeight
-                        maxWeight = max(max(weightsList), maxWeight)
-
-                        featureID = line[f]
-                        weight_list[featureID] = weightsList
-                except Exception as e:
-                    print(e)
 
     nx_graph = nx.Graph()
 
-    for node, edges in adjacency_list.items():
-        nx_graph.add_node(node, pos=position_list[node])
-        for i in range(len(edges)):
-            nx_graph.add_edge(node, edges[i], weight=weight_list[node][i])
+    for node, properties in adjacency_list.items():
+        nx_graph.add_node(node, pos=adjacency_list[node]["positionList"], size=adjacency_list[node]["size"])
+
+        weightsList = adjacency_list[node]["weightsList"]
+        neighborList = adjacency_list[node]["neighborList"]
+        for i in range(len(weightsList)):
+            nx_graph.add_edge(node, neighborList[i], weight=weightsList[i])
 
     return nx_graph
 
