@@ -24,19 +24,69 @@ def float_or_int(string):
         return float(string)
     return string
 
+def add_cube_scatter(fig, x=0, y=0, z=0, rot_x=0, rot_y=0, rot_z=0, size=10, color='black', featureID=''):
+    # Define the vertices of the cube
+    vertices = (np.array([
+        [0, 0, 0],
+        [0, 1, 0],
+        [1, 1, 0],
+        [1, 0, 0],
+        [0, 0, 1],
+        [0, 1, 1],
+        [1, 1, 1],
+        [1, 0, 1]
+    ]) * size) - (size/2)
+
+    # Apply rotation transformations
+    rotation_matrix = np.array([
+        [np.cos(rot_z)*np.cos(rot_y), np.cos(rot_z)*np.sin(rot_y)*np.sin(rot_x) - np.sin(rot_z)*np.cos(rot_x),
+         np.cos(rot_z)*np.sin(rot_y)*np.cos(rot_x) + np.sin(rot_z)*np.sin(rot_x)],
+        [np.sin(rot_z)*np.cos(rot_y), np.sin(rot_z)*np.sin(rot_y)*np.sin(rot_x) + np.cos(rot_z)*np.cos(rot_x),
+         np.sin(rot_z)*np.sin(rot_y)*np.cos(rot_x) - np.cos(rot_z)*np.sin(rot_x)],
+        [-np.sin(rot_y), np.cos(rot_y)*np.sin(rot_x), np.cos(rot_y)*np.cos(rot_x)]
+    ])
+
+    rotated_vertices = np.dot(vertices, rotation_matrix.T)
+
+    # Apply translation
+    translated_vertices = rotated_vertices + (np.array([x, y, z]))
+
+    fig.add_trace(
+        go.Mesh3d(
+            # Update the vertices with the rotated and translated coordinates
+            x=translated_vertices[:, 0],
+            y=translated_vertices[:, 1],
+            z=translated_vertices[:, 2],
+            i=[7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+            j=[3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+            k=[0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+            showlegend=True,
+            legendgroup="Grains",
+            hovertemplate=f"""
+                x: {x},\n
+                y: {y},\n
+                z: {z}
+            """,
+            color= str(color),
+            opacity=0.7,
+            name='featureID ' + featureID
+        )
+    )
+
+    return fig
+
 def network_plot_3D(G, angle, save=False):
 
     # Get node positions
     pos = nx.get_node_attributes(G, 'pos')
+    rot = nx.get_node_attributes(G, 'rot')
     size = nx.get_node_attributes(G, 'size')
+    surfaceFeature = nx.get_node_attributes(G, 'surfaceFeature')
     # Get number of nodes
     n = G.nodes()
 
-    # Get the maximum number of edges adjacent to a single node
-    edge_max = max([G.degree(i) for i in n])
-
-    # Define color range proportional to number of edges adjacent to a single node
-    colors = {i: plt.cm.plasma(G.degree(i)/edge_max) for i in n}
+    # Define color range proportional to whether grain is a surface feature or not
+    colors = {i: "blue" if surfaceFeature[i] else "red" for i in n}
 
     axis = dict(showbackground=False, showline=False, zeroline=False, showgrid=False, showticklabels=False, title='')
 
@@ -51,26 +101,30 @@ def network_plot_3D(G, angle, save=False):
         xi = value[0]
         yi = value[1]
         zi = value[2]
+        rx = rot[key][0]
+        ry = rot[key][1]
+        rz = rot[key][2]
 
         # Scatter plot
-        fig.add_trace(go.Scatter3d(
-            x=[xi],
-            y=[yi],
-            z=[zi],
-            mode ='markers',
-            marker = dict(
-                symbol='circle',
-                size=size[key]/100,
-                color=colors[key],
-                opacity=0.7
-            ),
-            name='featureID ' + key,
-            legendgroup="Grains"
-        ))
+        # fig.add_trace(go.Scatter3d(
+        #     x=[xi],
+        #     y=[yi],
+        #     z=[zi],
+        #     mode ='markers',
+        #     marker = dict(
+        #         symbol='circle',
+        #         size=size[key]/2000,
+        #         color=colors[key],
+        #         opacity=0.7
+        #     ),
+        #     name='featureID ' + key
+        # ))
+
+        # Plot mesh cube in scatter plot
+        fig = add_cube_scatter(fig, x=xi, y=yi, z=zi, rot_x=rx, rot_y=ry, rot_z=rz, size=size[key]/2000, color=colors[key], featureID=key)
 
     # Loop on the list of edges to get the x,y,z, coordinates of the connected nodes
     # Those two points are the extrema of the line to be plotted
-
     for j in G.edges.data("weight", default=1):
         x = np.array((pos[j[0]][0], pos[j[1]][0]))
         y = np.array((pos[j[0]][1], pos[j[1]][1]))
@@ -88,7 +142,7 @@ def network_plot_3D(G, angle, save=False):
             legendgroup="Edges"
         ))
 
-    plot(fig)
+    return fig
 
 def gen_graph(input_file):
 
@@ -107,10 +161,12 @@ def gen_graph(input_file):
         # displaying the contents of the CSV file
         i = 0
         for line in csvFile:
+            # If header, then its the next set of data
             if checkHeader(line):
                 i+=1
                 headers[i] = line
             else:
+                # Gets feature ID to start building adjacency list with networkx
                 f = headers[i].index("Feature_ID")
                 featureID = line[f]
                 if featureID not in adjacency_list:
@@ -119,10 +175,17 @@ def gen_graph(input_file):
                     c0 = headers[i].index("Centroids_0")
                     c1 = headers[i].index("Centroids_1")
                     c2 = headers[i].index("Centroids_2")
+                    r0 = headers[i].index("EulerAngles_0")
+                    r1 = headers[i].index("EulerAngles_1")
+                    r2 = headers[i].index("EulerAngles_2")
+                    sf = headers[i].index("SurfaceFeatures")
                     featureID = line[f]
                     pos = (float_or_int(line[c0]), float_or_int(line[c1]), float_or_int(line[c2]))
+                    rot = (float_or_int(line[r0]), float_or_int(line[r1]), float_or_int(line[r2]))
                     adjacency_list[featureID]["positionList"] = pos
+                    adjacency_list[featureID]["rotationList"] = rot
                     adjacency_list[featureID]["size"] = float_or_int(line[headers[i].index("Volumes")])
+                    adjacency_list[featureID]["surfaceFeature"] = bool(float_or_int(line[sf]))
                 if i == 2:
                     neighborList = line[2:]
                     adjacency_list[featureID]["neighborList"] = neighborList
@@ -135,8 +198,14 @@ def gen_graph(input_file):
 
     nx_graph = nx.Graph()
 
+    # Iterate through adjacency list to add each node and edge to networkx
     for node, properties in adjacency_list.items():
-        nx_graph.add_node(node, pos=adjacency_list[node]["positionList"], size=adjacency_list[node]["size"])
+        nx_graph.add_node(node,
+            pos=adjacency_list[node]["positionList"],
+            rot=adjacency_list[node]["rotationList"],
+            size=adjacency_list[node]["size"],
+            surfaceFeature=adjacency_list[node]["surfaceFeature"]
+        )
 
         weightsList = adjacency_list[node]["weightsList"]
         neighborList = adjacency_list[node]["neighborList"]
@@ -147,7 +216,8 @@ def gen_graph(input_file):
 
 def main():
     nx_graph = gen_graph(GEN_STRUCTURES_FILE)
-    network_plot_3D(nx_graph, 0)
+    plot(network_plot_3D(nx_graph, 0))
+
 
 if __name__ == "__main__":
     main()
