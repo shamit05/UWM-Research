@@ -159,5 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Dream3D
+# Dream3D and Paraview
 Dream3D-build/
+Paraview-build/
