@@ -14,10 +14,11 @@ GEN_STRUCTURES_FILE_BASE = os.path.join(DIR_LOC, "generated_microstructures", "F
 
 def network_to_pyg_data(file):
     G = gen_graph(file)
-
     pyg_graph = from_networkx(G, group_node_attrs=["pos", "size", "rot"], group_edge_attrs=["weight"])
-    pyg_graph.y = pyg_graph.surfaceFeature
-    del pyg_graph.surfaceFeature
+    pyg_graph.y = pyg_graph["surfaceFeature"]
+    del pyg_graph["surfaceFeature"]
+    pyg_graph.y = pyg_graph.y.type(torch.LongTensor)
+
     # Split the data
     train_ratio = 0.2
     num_nodes = pyg_graph.x.shape[0]
@@ -37,12 +38,12 @@ def network_to_pyg_data(file):
     return data
 
 data_batch = []
-
-for i in range(0, 9):
+for i in range(0, 30):
     file = GEN_STRUCTURES_FILE_BASE + str(i) + ".csv"
     print("Loading graph " + str(i) + "...")
     data_batch.append(network_to_pyg_data(file))
 
+print(data_batch)
 # loader to combine data
 print("Combining data...")
 
@@ -50,60 +51,39 @@ loader = DataLoader(data_batch, batch_size=32)
 data = next(iter(loader))
 
 # GCN model with 2 layers
-class Net(torch.nn.Module):
+class GCN(torch.nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = GCNConv(data.num_features, 16)
-        self.conv2 = GCNConv(16, int(data.y.max() + 1))
+        super().__init__()
+        self.conv1 = GCNConv(data.num_node_features, 32)
+        self.conv2 = GCNConv(32, int(data.y.max() + 2))
 
-    def forward(self):
+    def forward(self, data):
         x, edge_index = data.x, data.edge_index
-        x = F.relu(self.conv1(x, edge_index))
+
+        x = self.conv1(x, edge_index)
+        x = F.relu(x)
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index)
+
         return F.log_softmax(x, dim=1)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+model = GCN().to(device)
 data = data.to(device)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
-model = Net().to(device)
+model.train()
+for epoch in range(500):
+    optimizer.zero_grad()
+    out = model(data)
+    loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
+    loss.backward()
+    optimizer.step()
 
-torch.manual_seed(42)
+    model.eval()
+    pred = model(data).argmax(dim=1)
+    correct = (pred[data.test_mask] == data.y[data.test_mask]).sum()
+    acc = int(correct) / int(data.test_mask.sum())
 
-optimizer_name = "Adam"
-lr = 1e-1
-optimizer = getattr(torch.optim, optimizer_name)(model.parameters(), lr=lr)
-epochs = 200
-
-def train():
-  model.train()
-  optimizer.zero_grad()
-  F.nll_loss(model()[data.train_mask], data.y[data.train_mask]).backward()
-  optimizer.step()
-
-@torch.no_grad()
-def test():
-  model.eval()
-  logits = model()
-  mask1 = data['train_mask']
-  pred1 = logits[mask1].max(1)[1]
-  acc1 = pred1.eq(data.y[mask1]).sum().item() / mask1.sum().item()
-  mask = data['test_mask']
-  pred = logits[mask].max(1)[1]
-  acc = pred.eq(data.y[mask]).sum().item() / mask.sum().item()
-  return acc1,acc
-
-print("Training...")
-for epoch in range(1, epochs):
-    print("Epoch " + str(epoch) + "...")
-    train()
-    train_acc, test_acc = test()
-    print('Train Accuracy: %s' % train_acc)
-
-train_acc,test_acc = test()
-
-print('#' * 70)
-print('Train Accuracy: %s' %train_acc )
-print('Test Accuracy: %s' % test_acc)
-print('#' * 70)
+    print("Epoch: " + str(epoch))
+    print(f'Loss: {loss:.4f}, Accuracy: {acc:.4f}')
