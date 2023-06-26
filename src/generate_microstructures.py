@@ -702,11 +702,8 @@ def write_band_sets_advanced_rev2(el_plane_layers, grain_el, directory, i):
     # If an edge band (i.e., the first or last band) contains too few elements as defined below, absorb this into the neighboring band
     # Determined by taking cube root of average number of elements per grain as defined below
     # ~100 elements per grain requires more than four elements per band
-    print(el_plane_layers)
-    print(grain_el)
-    print(np.shape(el_plane_layers)[0])
-    print(np.shape(grain_el)[0]))
-    absorb_threshold = np.cbrt(np.shape(el_plane_layers)[0] / np.shape(grain_el)[0])
+
+    absorb_threshold = np.cbrt(len(el_plane_layers) / len(grain_el))
 
     start_time = time.time()
 

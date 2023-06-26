@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plotly.offline import plot
 import plotly.graph_objs as go
+import matplotlib as mpl
 
 DIR_LOC = pathlib.Path(__file__).parents[1] # /Research Directory
 GEN_STRUCTURES_FILE = os.path.join(DIR_LOC, "generated_microstructures", "FeatureData_FakeMatl_0.csv")
@@ -24,7 +25,7 @@ def float_or_int(string):
         return float(string)
     return string
 
-def add_cube_scatter(fig, x=0, y=0, z=0, rot_x=0, rot_y=0, rot_z=0, size=10, color='black', featureID=''):
+def add_cube_scatter(fig, x=0, y=0, z=0, rot_x=0, rot_y=0, rot_z=0, size=10, color='black', alpha=0.7, featureID=''):
     # Define the vertices of the cube
     vertices = (np.array([
         [0, 0, 0],
@@ -68,12 +69,17 @@ def add_cube_scatter(fig, x=0, y=0, z=0, rot_x=0, rot_y=0, rot_z=0, size=10, col
                 z: {z}
             """,
             color= str(color),
-            opacity=0.7,
+            opacity=alpha,
             name='featureID ' + featureID
         )
     )
 
     return fig
+
+def colorFader(c1,c2, a1=1, a2=0, mix=0): #fade (linear interpolate) from color c1 (at mix=0) to c2 (mix=1)
+    c1=np.array(mpl.colors.to_rgba(c1, alpha=a1))
+    c2=np.array(mpl.colors.to_rgba(c2, alpha=a2))
+    return mpl.colors.to_hex((1-mix)*c1 + mix*c2)
 
 def network_plot_3D(G, angle, save=False):
 
@@ -83,10 +89,18 @@ def network_plot_3D(G, angle, save=False):
     size = nx.get_node_attributes(G, 'size')
     surfaceFeature = nx.get_node_attributes(G, 'surfaceFeature')
     # Get number of nodes
-    n = G.nodes()
-
-    # Define color range proportional to whether grain is a surface feature or not
-    colors = {i: "blue" if surfaceFeature[i] else "red" for i in n}
+    n = list(G.nodes())
+    # Define color range proportional to grain ID
+    colors = {}
+    alphas = {}
+    for i in n:
+        if float(i) > 235:
+            mix = (float(i) - 235) / (float(len(n)) - 235)
+            alphas[i] = mix
+            colors[i] = "red"
+        else:
+            alphas[i] = 0
+            colors[i] = "black"
 
     axis = dict(showbackground=False, showline=False, zeroline=False, showgrid=False, showticklabels=False, title='')
 
@@ -121,7 +135,7 @@ def network_plot_3D(G, angle, save=False):
         # ))
 
         # Plot mesh cube in scatter plot
-        fig = add_cube_scatter(fig, x=xi, y=yi, z=zi, rot_x=rx, rot_y=ry, rot_z=rz, size=size[key]/2000, color=colors[key], featureID=key)
+        fig = add_cube_scatter(fig, x=xi, y=yi, z=zi, rot_x=rx, rot_y=ry, rot_z=rz, size=size[key]/2000, color=colors[key], alpha=alphas[key], featureID=key)
 
     # Loop on the list of edges to get the x,y,z, coordinates of the connected nodes
     # Those two points are the extrema of the line to be plotted
@@ -185,7 +199,7 @@ def gen_graph(input_file):
                     adjacency_list[featureID]["positionList"] = pos
                     adjacency_list[featureID]["rotationList"] = rot
                     adjacency_list[featureID]["size"] = float_or_int(line[headers[i].index("Volumes")])
-                    adjacency_list[featureID]["surfaceFeature"] = bool(float_or_int(line[sf]))
+                    adjacency_list[featureID]["surfaceFeature"] = float_or_int(line[sf])
                 if i == 2:
                     neighborList = line[2:]
                     adjacency_list[featureID]["neighborList"] = neighborList
