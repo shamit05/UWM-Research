@@ -14,9 +14,13 @@ networkx = "^3.1"
 plotly = "^5.15.0"
 torch = "^2.0.1"
 torch-geometric = "^2.3.1"
+ray = {extras = ["tune"], version = "^2.5.1"}
 jupyterlab = "^4.0.2"
 import-ipynb = "^0.1.4"
-ray = {extras = ["air"], version = "^2.5.1"}
+notebook = "^6.5.4"
+ipywidgets = "^8.0.7"
+tensorboardx = "^2.6.1"
+tensorboard = "^2.13.0"
 
 [build-system]
 requires = ["poetry-core"]

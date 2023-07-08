@@ -23,7 +23,7 @@ GEN_STRUCTURES_FILE_BASE = os.path.join(DIR_LOC, "generated_microstructures", "F
 
 def network_to_pyg_data(file):
     G = gen_graph(file)
-    pyg_graph = from_networkx(G, group_node_attrs=["pos", "size", "rot"], group_edge_attrs=["weight"])
+    pyg_graph = from_networkx(G, group_node_attrs=["pos"], group_edge_attrs=["weight"])
     pyg_graph.y = pyg_graph["surfaceFeature"]
     del pyg_graph["surfaceFeature"]
     pyg_graph.y = pyg_graph.y.type(torch.LongTensor)
@@ -102,7 +102,7 @@ def train_gcn(config, data):
 def tune_hyperparameters(config, metric, mode):
     data_batch = []
     for i in range(0,99):
-        print("Loading graph " + str(i) + "...")
+        # print("Loading graph " + str(i) + "...")
         file = GEN_STRUCTURES_FILE_BASE + str(i) + ".csv"
         data_batch.append(network_to_pyg_data(file))
 
@@ -121,7 +121,7 @@ def tune_hyperparameters(config, metric, mode):
             "params": config
         },
         tune_config=TuneConfig(
-            num_samples=500,
+            num_samples=10,
             # time_budget_s=600.0,
             scheduler=scheduler,
         ),

@@ -20,7 +20,12 @@ poetry shell
 pip uninstall torch
 pip install torch --index-url https://download.pytorch.org/whl/cu118 --no-cache-dir
 ```
-#### If you have Apple Sillcon
+To check if CUDA installation worked:
+```
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
+#### If you have Apple Silicon
 After poetry install, you need to install openssl (raytune) for grpcio dependency:
 ```
 pip uninstall grpcio

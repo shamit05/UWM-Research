@@ -1,11 +1,11 @@
 ## Research Plan
 
 ##### July 5 - 7:  
- - Convert graph and neueral net generation to juptyer notebook
+ - ~~Convert graph and neueral net generation to juptyer notebook~~
  - ~~Figure out how to save graph as file~~
  - Create documentation for neural network generation
- - Figure out how to save neural net model
- - Create neural net visualization
+ - ~~Figure out how to save neural net model~~
+ - ~~Create neural net visualization~~
 
 ##### July 10 - 14:  
  - Improve graph (and add more data)
