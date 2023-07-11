@@ -45,7 +45,7 @@ def write_el_centroids_pickled(el_centroids, directory, num):
     p.dump(el_centroids,h1)
     h1.close()
 
-def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, size, num_runs, is_periodic=True):
+def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, size, num_runs_start, num_runs_end, is_periodic=True):
     """
     Runs DREAM.3D to generate multiple microstructure instantiations of the same basic statistics.
 
@@ -53,7 +53,7 @@ def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, 
     VTK and CSV data formats used as intermediate file outputs. CSV file format contains grain information (orientation, phase, etc.) while VTK relates voxel locations in space to the associated grain number.
     Supports commonly used variation of number of elements, element size, as well as allowing periodicity or not.
     Supports older v4 and v5 pipeline formats as well as the newer v6 pipeline JSON format.
-    Created microstructures will be numbered 0-num_runs-1
+    Created microstructures will be numbered num_runs_start-num_runs_end-1
     Microstructures are allowed a limited number of attempts to create, after which an IOError is raised to indicate a problem in the pipeline.
 
     Parameters
@@ -70,8 +70,10 @@ def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, 
         List of ints for the number of voxels along each dimension of the reconstructions. Should be 3D as DREAM.3D will create a 3D microstructure.
     size : list
         List of floats for the geometric extents of the microstructure representation along each dimension. Should be in mm.
-    num_runs : int
-        number of synthetic reconstructions to create with these input parameters
+    num_runs_start : int
+        number of synthetic reconstructions to create with these input parameters (start number, inclusive)
+    num_runs_end : int
+        number of synthetic reconstructions to create with these input parameters (end number, exclusive)
     is_periodic : bool
         Create a periodic microstructure along all dimensions, or not.
     Returns
@@ -120,7 +122,7 @@ def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, 
     vtk_list = []
     csv_list = []
 
-    for i in range(num_runs):
+    for i in range(num_runs_start, num_runs_end):
         # Edit output file names so that we don't overwrite information
         if (v_6):
             directory = directory.replace("\\", "/")
@@ -251,7 +253,7 @@ def batch_dream3d(runner_path, pipeline_path, d3d_input_file, directory, shape, 
         if attempt_count >= max_attempt:
             raise IOError("Could not construct DREAM.3D microstructures. Verify input statistics, pipeline and DREAM.3D version")
 
-    for ii in range(num_runs):
+    for ii in range(num_runs_start, num_runs_end):
         # Rename 'orientations.txt' filename
         try:
             os.remove(os.path.join(directory, 'orientations_%d.txt' % ii))
@@ -1371,7 +1373,7 @@ def append_bands_to_vtk(directory, elem_list_2, num_layers, grain_sets, shape, n
 
     f_vtk.close()
 
-def print_params(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, num_instantiations, d3d_input_file):
+def print_params(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, start_num_instantiations, end_num_instantiations, d3d_input_file):
     # Print current microstructure info to text file
 
     # Create/go to desired directory
@@ -1392,10 +1394,10 @@ def print_params(directory, size, shape, face_bc, num_vox, band_thickness, num_p
     f.write('Number of element band thickness:  %d \n' % band_thickness)
     f.write('Number of slip planes for banding:  %d \n' % num_planes)
     f.write('Face boundary conditions in X, Y, and Z:  %s, %s, %s \n' % (face_bc[0], face_bc[1], face_bc[2]))
-    f.write('Number of microstructure instantiations generated:  %d' % num_instantiations)
+    f.write('Number of microstructure instantiations generated:  %d - %d' % (start_num_instantiations, end_num_instantiations))
     f.close()
 
-def gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, create_sub_bands, num_instantiations, generate_new_microstructure_files, compute_kosher_grain_centroids, d3d_input_file, d3d_pipeline_path, d3d_executable_path):
+def gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, create_sub_bands, start_num_instantiations, end_num_instantiations, generate_new_microstructure_files, compute_kosher_grain_centroids, d3d_input_file, d3d_pipeline_path, d3d_executable_path):
     # Main function
 
     # Create/go to desired directory
@@ -1418,7 +1420,7 @@ def gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness
     # Generate microstructure instantiation(s) using DREAM.3D
     # If generate_new_microstructure_files is set to false, new microstructures will NOT be generated and the script will proceed with analysis of existing microstructures by reading the .csv and GrainID_#.txt files.
     if generate_new_microstructure_files:
-        batch_dream3d(d3d_executable_path, d3d_pipeline_path, d3d_input_file, directory, shape, size, num_instantiations, is_periodic)
+        batch_dream3d(d3d_executable_path, d3d_pipeline_path, d3d_input_file, directory, shape, size, start_num_instantiations, end_num_instantiations, is_periodic)
 
     # Read in plane normal directions
     planes = FCC_OCT_NORMALS
@@ -1438,7 +1440,7 @@ def gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness
 
 
     # Iterate through all microstructures to generate files necessary to volume average Fatigue Indicator Parameter (FIP) for Extreme Value Distributions (EVDs)
-    for num in range(num_instantiations):
+    for num in range(start_num_instantiations, end_num_instantiations):
         # Create nodes and elements
         nodes, elements = make_nodes_elements(shape, size)
 
@@ -1607,7 +1609,8 @@ def main():
     shape = np.asarray([29,29,29])
 
     # Number of microstructure instantiations to generate using DREAM.3D
-    num_instantiations = 5
+    start_num_instantiations = 0
+    end_num_instantiations = 10
 
 
     ''' Specify details of banding and sub-banding process '''
@@ -1670,10 +1673,10 @@ def main():
     generate_new_microstructure_files = True
 
     # Print the parameters of this microstructure set to a text file
-    print_params(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, num_instantiations, d3d_input_file)
+    print_params(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, start_num_instantiations, end_num_instantiations, d3d_input_file)
 
     # Call to the main function
-    gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, create_sub_bands, num_instantiations, generate_new_microstructure_files, compute_kosher_grain_centroids, d3d_input_file, d3d_pipeline_path, d3d_executable_path)
+    gen_microstructures(directory, size, shape, face_bc, num_vox, band_thickness, num_planes, create_sub_bands, start_num_instantiations, end_num_instantiations, generate_new_microstructure_files, compute_kosher_grain_centroids, d3d_input_file, d3d_pipeline_path, d3d_executable_path)
 
 if __name__ == "__main__":
     main()

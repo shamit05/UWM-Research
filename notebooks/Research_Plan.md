@@ -3,12 +3,12 @@
 ##### July 5 - 7:  
  - ~~Convert graph and neueral net generation to juptyer notebook~~
  - ~~Figure out how to save graph as file~~
- - Create documentation for neural network generation
+ - ~~Create documentation for neural network generation~~
  - ~~Figure out how to save neural net model~~
  - ~~Create neural net visualization~~
 
 ##### July 10 - 14:  
- - Improve graph (and add more data)
+ - ~~Improve graph (and add more data)~~
  - Use Dream3D hdf5 files instead of csv
  - Clean up code to use pandas (instead of dictionaries)
  - Explore FIPs (look at PRISMS-Fatigue computational framework)
