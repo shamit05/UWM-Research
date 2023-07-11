@@ -8,4 +8,4 @@ Elements per sub-band:  9
 Number of element band thickness:  1 
 Number of slip planes for banding:  4 
 Face boundary conditions in X, Y, and Z:  periodic, periodic, periodic 
-Number of microstructure instantiations generated:  100
+Number of microstructure instantiations generated:  0 - 120
