@@ -1,0 +1,209 @@
+PipelineRunner Starting. 
+   SIMPLib Version 1.2.828.f45085c83
+Pipeline Count: 25
+: 3%
+: [1/25] Read DREAM.3D Data File 
+: 7%
+: [2/25] Initialize Synthetic Volume 
+: 11%
+: [3/25] Establish Shape Types 
+: 15%
+: [4/25] Pack Primary Phases 
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features || Initializing Volume
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features || Placing Features
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features (1/2) || Generating Feature #100
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features (1/2) || Generating Feature #200
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features || Starting Feature Placement...
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #3/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #6/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #9/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #12/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #15/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #18/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #21/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #24/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #27/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #30/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #33/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #36/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #39/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #42/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #45/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #48/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #51/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #54/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #57/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #60/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #63/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #66/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #69/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #72/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #75/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #78/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #81/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #84/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #87/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #90/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #93/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #96/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #99/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #102/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #105/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #108/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #111/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #114/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #117/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #120/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #123/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #126/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #129/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #132/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #135/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #138/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #141/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #144/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #147/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #150/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #153/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #156/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #159/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #162/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #165/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #168/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #171/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #174/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #177/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #180/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #183/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #186/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #189/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #192/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #195/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #198/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #201/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #204/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #207/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #210/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #213/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #216/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #219/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #222/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #225/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #228/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #231/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #234/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #237/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #240/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #243/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #246/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Placing Feature #247/247
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features || Assigning Voxels
+Pack Primary Phases: [4/25] Pack Primary Phases : Packing Features || Assigning Gaps
+Pack Primary Phases: [4/25] Pack Primary Phases : Assign Gaps || Cycle#: 1 || Remaining Unassigned Voxel Count: 6310
+Pack Primary Phases: [4/25] Pack Primary Phases : Assign Gaps || Cycle#: 2 || Remaining Unassigned Voxel Count: 1014
+Pack Primary Phases: [4/25] Pack Primary Phases : Assign Gaps || Cycle#: 3 || Remaining Unassigned Voxel Count: 58
+Pack Primary Phases: [4/25] Pack Primary Phases : Assign Gaps || Cycle#: 4 || Remaining Unassigned Voxel Count: 3
+Pack Primary Phases: [4/25] Pack Primary Phases : Assign Gaps || Cycle#: 5 || Remaining Unassigned Voxel Count: 0
+: 19%
+: [5/25] Find Boundary Cells (Image) 
+: 23%
+: [6/25] Insert Precipitate Phases 
+Insert Precipitate Phases: [6/25] Insert Precipitate Phases : Packing Precipitates || Generating and Placing Precipitates
+Insert Precipitate Phases: [6/25] Insert Precipitate Phases : Packing Precipitates || Starting Feature Placement...
+Insert Precipitate Phases: Packing Features - Initial Feature Placement Complete
+Insert Precipitate Phases: [6/25] Insert Precipitate Phases : Packing Precipitates || Assigning Voxels
+Insert Precipitate Phases: [6/25] Insert Precipitate Phases : Packing Precipitates || Filling Gaps
+Insert Precipitate Phases: [6/25] Insert Precipitate Phases : Assign Gaps || Cycle#: 1 || Remaining Unassigned Voxel Count: 0
+: 26%
+: [7/25] Find Feature Neighbors 
+: 30%
+: [8/25] Match Crystallography 
+Match Crystallography: [8/25] Match Crystallography : Determining Volumes
+Match Crystallography: [8/25] Match Crystallography : Determining Boundary Areas
+Match Crystallography: Initializing Arrays
+Match Crystallography: [8/25] Match Crystallography : Assigning Eulers to Phase 1
+Match Crystallography: [8/25] Match Crystallography : Measuring Misorientations of Phase 1
+Match Crystallography: [8/25] Match Crystallography : Matching Crystallography of Phase 1
+Match Crystallography: Initializing Arrays
+Match Crystallography: [8/25] Match Crystallography : Assigning Eulers to Phase 2
+Match Crystallography: [8/25] Match Crystallography : Measuring Misorientations of Phase 2
+Match Crystallography: [8/25] Match Crystallography : Matching Crystallography of Phase 2
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 12268/100000 || Est. Time Remain: 00:00:07 || Iterations/Sec: 12255.7
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 24570/100000 || Est. Time Remain: 00:00:06 || Iterations/Sec: 12272.7
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 36635/100000 || Est. Time Remain: 00:00:05 || Iterations/Sec: 12199.5
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 48939/100000 || Est. Time Remain: 00:00:04 || Iterations/Sec: 12222.5
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 61189/100000 || Est. Time Remain: 00:00:03 || Iterations/Sec: 12225.6
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 73530/100000 || Est. Time Remain: 00:00:02 || Iterations/Sec: 12242.8
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 85656/100000 || Est. Time Remain: 00:00:01 || Iterations/Sec: 12224.3
+Match Crystallography: [8/25] Match Crystallography : Swapping/Switching Orientations Iteration 97954/100000 || Est. Time Remain: 00:00:00 || Iterations/Sec: 12232
+: 34%
+: [9/25] Vtk Rectilinear Grid Exporter 
+Vtk Rectilinear Grid Exporter: [9/25] Vtk Rectilinear Grid Exporter : Writing Cell Data FeatureIds
+Vtk Rectilinear Grid Exporter: [9/25] Vtk Rectilinear Grid Exporter : Writing Cell Data EulerAngles
+Vtk Rectilinear Grid Exporter: [9/25] Vtk Rectilinear Grid Exporter : Writing Cell Data Phases
+: 38%
+: [10/25] Find Feature Centroids 
+: 42%
+: [11/25] Find Feature Shapes 
+: 46%
+: [12/25] Find Feature Sizes 
+: 50%
+: [13/25] Export Feature Data as CSV File 
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 0.404858% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 5.26316% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 10.1215% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 15.3846% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 20.2429% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 25.1012% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 30.3644% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 35.2227% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 40.081% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 45.3441% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 50.2024% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 55.0607% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 60.3239% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 65.1822% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 70.0405% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 75.3036% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 80.1619% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 85.0202% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 90.2834% Complete
+Export Feature Data as CSV File: [13/25] Export Feature Data as CSV File : Writing Feature Data || 95.1417% Complete
+: 53%
+: [14/25] Generate IPF Colors 
+: 57%
+: [15/25] Export Dx File (Feature Ids) 
+: 61%
+: [16/25] Convert Orientation Representation 
+: 65%
+: [17/25] Attribute Array Calculator 
+Attribute Array Calculator: [17/25] Attribute Array Calculator : Computing Operator 1/4
+Attribute Array Calculator: [17/25] Attribute Array Calculator : Computing Operator 2/4
+Attribute Array Calculator: [17/25] Attribute Array Calculator : Computing Operator 3/4
+Attribute Array Calculator: [17/25] Attribute Array Calculator : Computing Operator 4/4
+: 69%
+: [18/25] Attribute Array Calculator 
+Attribute Array Calculator: [18/25] Attribute Array Calculator : Computing Operator 1/4
+Attribute Array Calculator: [18/25] Attribute Array Calculator : Computing Operator 2/4
+Attribute Array Calculator: [18/25] Attribute Array Calculator : Computing Operator 3/4
+Attribute Array Calculator: [18/25] Attribute Array Calculator : Computing Operator 4/4
+: 73%
+: [19/25] Attribute Array Calculator 
+Attribute Array Calculator: [19/25] Attribute Array Calculator : Computing Operator 1/4
+Attribute Array Calculator: [19/25] Attribute Array Calculator : Computing Operator 2/4
+Attribute Array Calculator: [19/25] Attribute Array Calculator : Computing Operator 3/4
+Attribute Array Calculator: [19/25] Attribute Array Calculator : Computing Operator 4/4
+: 76%
+: [20/25] Create Feature Array from Element Array 
+: 80%
+: [21/25] Convert AttributeArray Data Type 
+: 84%
+: [22/25] Convert AttributeArray Data Type 
+: 88%
+: [23/25] Combine Attribute Arrays 
+: 92%
+: [24/25] Export ASCII Data 
+Export ASCII Data: [24/25] Export ASCII Data : || Exporting Dataset 'orientations'
+: 96%
+: [25/25] Write DREAM.3D Data File 
+: Pipeline Complete
